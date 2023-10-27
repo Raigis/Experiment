@@ -64,6 +64,7 @@ void Battle (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP
 }
 
 void Evade (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP, ref int enemyATK) {
+    Console.Clear(); 
     int evadeChance = 10;
     for (int i = evadeChance; i > 2; i--){
         int random = new Random().Next(i);
