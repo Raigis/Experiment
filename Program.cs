@@ -66,9 +66,15 @@ void Battle (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP
 void Evade (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP, ref int enemyATK) {
     Console.Clear(); 
     int evadeChance = 10;
-    for (int i = evadeChance; i > 2; i--){
+    for (int i = evadeChance; i >= 8; i--){
+        if (i == 8) {
+            Console.WriteLine($"Сбежать больше не получится.\nПридётся биться.\nНажмите любую клавишу, чтобы продолжить.");
+            Console.ReadKey();
+            Battle(ref count, ref changeHP, ref changeATK, ref enemyHP, ref enemyATK);
+            break;
+        }
         int random = new Random().Next(i);
-        if (random <3) {
+        if (random <5) {
             string answer;
             Console.WriteLine($"Сбежать не получилось.\nПопробовать снова?");
             Console.WriteLine($"1) Биться");
@@ -85,10 +91,10 @@ void Evade (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP,
                     break;
                 } else {
                     Switcher(answer, ref count, ref changeHP, ref changeATK);
+                    break;
                 }
             }
-        }
-        else {
+        } else {
             Console.WriteLine($"Вы смогли сбежать.\nНажмите любую клавишу, чтобы продолжить.");
             break;
         }
