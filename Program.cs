@@ -1022,6 +1022,7 @@ void FirstRoom (ref int count, ref int changeHP, ref int changeATK) {
 }
 
 void Start (ref int count, ref int changeHP, ref int changeATK) {
+    Console.Clear();
     string answer;
     Console.Write($"Добро пожаловать!\nЕсли готовы начать, введите 'Y'.\nЕсли желаете выйти, нажмите 'N'.\n[Y/N]\n");
     while(true){
