@@ -49,7 +49,7 @@ void Switcher (string answer){
     FrontRoom();
     break;
     case "2": 
-    Console.WriteLine($"Заглушка");
+    LeftRoom();
     break;
     case "3": 
     Console.WriteLine($"Заглушка");
@@ -59,6 +59,206 @@ void Switcher (string answer){
     break;
     default:
     Console.WriteLine($"До свидания!");
+    break;
+    } 
+}
+
+void LeftRoom1 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" _______");
+    Console.WriteLine($"|   ____|");
+    Console.WriteLine($"|  |  __*");
+    Console.WriteLine($"|__|v|__|");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"4)v");
+    Console.WriteLine($"\n[4/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '4' или 'EXIT'.\n[4/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '4' или 'EXIT'.\n[4/EXIT]\n");
+        } else if (answer == "1" || answer == "2") {
+            Console.Write($"Там стена.\nВведите '4' или 'EXIT'.\n[4/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom2 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" _______");
+    Console.WriteLine($"|_______|");
+    Console.WriteLine($"<__   __*");
+    Console.WriteLine($"|__|v|__|");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"4)v");
+    Console.WriteLine($"\n[2/4/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '2', '4' или 'EXIT'.\n[2/4/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '2', '4' или 'EXIT'.\n[2/4/EXIT]\n");
+        } else if (answer == "1") {
+            Console.Write($"Там стена.\nВведите '2', '4' или 'EXIT'.\n[2/4/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom3 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" __   __");
+    Console.WriteLine($"|__|^|__|");
+    Console.WriteLine($"<__   __*");
+    Console.WriteLine($"|__|v|__|");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEFFR")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"4)v");
+    Console.WriteLine($"\n[1/2/4/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '1', '2', '4' или 'EXIT'.\n[1/2/4/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '1', '2', '4' или 'EXIT'.\n[1/2/4/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom4 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" __   __");
+    Console.WriteLine($"|__|^|__|");
+    Console.WriteLine($"<_______*");
+    Console.WriteLine($"|_______|");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"4)-");
+    Console.WriteLine($"\n[1/2/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '1', '2' или 'EXIT'.\n[1/2/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '1', '2' или 'EXIT'.\n[1/2/EXIT]\n");
+        } else if (answer == "4") {
+            Console.Write($"Там стена.\nВведите '1', '2' или 'EXIT'.\n[1/2/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom5 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" __   __");
+    Console.WriteLine($"|  |^|__|");
+    Console.WriteLine($"|  |____*");
+    Console.WriteLine($"|_______|");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"4)-");
+    Console.WriteLine($"\n[1/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '1' или 'EXIT'.\n[1/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '1' или 'EXIT'.\n[1/EXIT]\n");
+        } else if (answer == "4" || answer == "2") {
+            Console.Write($"Там стена.\nВведите '1' или 'EXIT'.\n[1/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom6 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" __   __");
+    Console.WriteLine($"|  |^|__|");
+    Console.WriteLine($"|  |  __*");
+    Console.WriteLine($"|__|v|__|");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEFFR")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"4)v");
+    Console.WriteLine($"\n[1/4/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '1', '4' или 'EXIT'.\n[1/4/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '1', '4' или 'EXIT'.\n[1/4/EXIT]\n");
+        } else if (answer == "2") {
+            Console.Write($"Там стена.\nВведите '1', '4' или 'EXIT'.\n[1/4/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom7 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" _______");
+    Console.WriteLine($"|_______|");
+    Console.WriteLine($"<_______*");
+    Console.WriteLine($"|_______|");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"4)-");
+    Console.WriteLine($"\n[2/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '2' или 'EXIT'.\n[2/EXIT]\n");
+        } else if (answer == "3") {
+            Console.Write($"Назад идти нельзя.\nВведите '2' или 'EXIT'.\n[2/EXIT]\n");
+        } else if (answer == "1" || answer == "4") {
+            Console.Write($"Там стена.\nВведите '2' или 'EXIT'.\n[2/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void LeftRoom () {
+    int random = new Random().Next(1, 8);
+    switch(random){
+    case 1: 
+    LeftRoom1();
+    break;
+    case 2: 
+    LeftRoom2();
+    break;
+    case 3: 
+    LeftRoom3();
+    break;
+    case 4: 
+    LeftRoom4();
+    break;
+    case 5: 
+    LeftRoom5();
+    break;
+    case 6: 
+    LeftRoom6();
+    break;
+    default:
+    LeftRoom7();
     break;
     } 
 }
@@ -211,8 +411,33 @@ void FrontRoom6 () {
     Switcher(answer);
 }
 
-void FrontRoom (){
-    int random = new Random().Next(1, 7);
+void FrontRoom7 () {
+    string answer;
+    Console.Clear();
+    Console.WriteLine($" __   __");
+    Console.WriteLine($"|  |^|  |");
+    Console.WriteLine($"|  | |  |");
+    Console.WriteLine($"|__|*|__|");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"4)-");
+    Console.WriteLine($"\n[1/EXIT]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2" && answer != "3" && answer != "4" && answer.ToLower() != "exit") {
+            Console.Write($"Неизвестный ввод.\nВведите '1' или 'EXIT'.\n[1/2/EXIT]\n");
+        } else if (answer == "4") {
+            Console.Write($"Назад идти нельзя.\nВведите '1' или 'EXIT'.\n[1/2/EXIT]\n");
+        } else if (answer == "2" || answer == "3") {
+            Console.Write($"Там стена.\nВведите '1' или 'EXIT'.\n[1/2/EXIT]\n");
+        } else break;
+    }
+    Switcher(answer);
+}
+
+void FrontRoom () {
+    int random = new Random().Next(1, 8);
     switch(random){
     case 1: 
     FrontRoom1();
@@ -229,8 +454,11 @@ void FrontRoom (){
     case 5: 
     FrontRoom5();
     break;
-    default:
+    case 6: 
     FrontRoom6();
+    break;
+    default:
+    FrontRoom7();
     break;
     } 
 }
