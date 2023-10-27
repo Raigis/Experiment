@@ -1,61 +1,69 @@
 ﻿using System.Collections;
-int CountRoom (int counter = 0) {
-    int count;
-    if (counter == 0) {
-        count = 0;
-    } else count = 0 + counter;
+int CountRoom (ref int count) {
+    count++;
     return count;
 }
 
-int Changer (string parametr, int chHP = 0, int chDEF = 0, int chATK = 0) {
-    int changeHP;
-    int changeDEF;
-    int changeATK;
-    if (CountRoom() == 0) {
-        changeHP = chHP;
-        changeDEF = chDEF;
-        changeATK = chATK;
-    } else {
-        changeHP = 0 + chHP;
-        changeDEF = 0 + chDEF;
-        changeATK = 0 + chATK;
-    }
-    switch (parametr){
-        case "HP": return changeHP;
-        case "DEF": return changeDEF;
-        case "ATK": return changeATK;
-        default: return -1;
-    }
+void Changer (ref int changeHP, ref int changeDEF, ref int changeATK, int chHP = 0, int chDEF = 0, int chATK = 0) {
+    changeHP+=chHP;
+    changeDEF+=chDEF;
+    changeATK+=chATK;
 }
 
-int Status (string parametr) {
+int Status (ref int changeHP, ref int changeDEF, ref int changeATK, string parametr) {
     int hp = 100;
     int def = 0;
     int atk = 5;
     switch (parametr){
         case "HPFR": return hp;
-        case "HP": return hp + Changer(parametr);
+        case "HP": return hp + changeHP;
         case "DEFFR": return def;
-        case "DEF": return def + Changer(parametr);
+        case "DEF": return def + changeDEF;
         case "ATKFR": return atk;
-        case "ATK": return atk + Changer(parametr);
+        case "ATK": return atk + changeATK;
         default: return -1;
     }
 }
 
-void Switcher (string answer) {
+void Event (ref int changeHP, ref int changeDEF, ref int changeATK) {
+    Console.Clear();
+    int random = new Random().Next(1, 5);
+    switch(random){
+    case 1:
+    Changer(ref changeHP, ref changeDEF, ref changeATK, chHP : 1);
+    Console.WriteLine($"Вы нашли зелье здоровья.\nHP+1\nНажмите любую клавишу, чтобы продолжить.");
+    break;
+    case 2: 
+    Changer(ref changeHP, ref changeDEF, ref changeATK, chDEF : 1);
+    Console.WriteLine($"Вы нашли часть брони.\nDEF+1\nНажмите любую клавишу, чтобы продолжить.");
+    break;
+    case 3: 
+    Changer(ref changeHP, ref changeDEF, ref changeATK, chATK : 1);
+    Console.WriteLine($"Вы нашли зелье атаки.\nATK+1\nНажмите любую клавишу, чтобы продолжить.");
+    break;
+    default:
+    Console.WriteLine($"Вы ничего не нашли.\nНажмите любую клавишу, чтобы продолжить.");
+    break;
+    } 
+}
+
+void Switcher (string answer, ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
+    if (answer.ToLower() != "exit") {
+        Event(ref changeHP, ref changeDEF, ref changeATK);
+        Console.ReadKey();
+    }
     switch(answer){
     case "1": 
-    FrontRoom();
+    FrontRoom(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case "2": 
-    LeftRoom();
+    LeftRoom(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case "3": 
-    RightRoom();
+    RightRoom(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case "4": 
-    BackRoom();
+    BackRoom(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     default:
     Console.WriteLine($"До свидания!");
@@ -63,17 +71,17 @@ void Switcher (string answer) {
     } 
 }
 
-void BackRoom1 () {
-    CountRoom (1);
+void BackRoom1 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom (ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|*|  |");
     Console.WriteLine($"<____|  |");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[2/EXIT]");
     while(true){
@@ -86,20 +94,20 @@ void BackRoom1 () {
             Console.Write($"Там стена.\nВведите '2' или 'EXIT'.\n[2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom2 () {
-    CountRoom (1);
+void BackRoom2 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|*|  |");
     Console.WriteLine($"<__  |  |");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[2/4/EXIT]");
     while(true){
@@ -112,20 +120,20 @@ void BackRoom2 () {
             Console.Write($"Там стена.\nВведите '2', '4' или 'EXIT'.\n[2/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom3 () {
-    CountRoom (1);
+void BackRoom3 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|*|__|");
     Console.WriteLine($"<__   __>");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[2/3/4/EXIT]");
     while(true){
@@ -136,20 +144,20 @@ void BackRoom3 () {
             Console.Write($"Назад идти нельзя.\nВведите '2', '3', '4' или 'EXIT'.\n[2/3/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom4 () {
-    CountRoom (1);
+void BackRoom4 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |*|__|");
     Console.WriteLine($"|  |  __>");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[3/4/EXIT]");
     while(true){
@@ -162,20 +170,20 @@ void BackRoom4 () {
             Console.Write($"Там стена.\nВведите '3', '4' или 'EXIT'.\n[3/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom5 () {
-    CountRoom (1);
+void BackRoom5 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |*|__|");
     Console.WriteLine($"|  |____>");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[3/EXIT]");
     while(true){
@@ -188,20 +196,20 @@ void BackRoom5 () {
             Console.Write($"Там стена.\nВведите '3' или 'EXIT'.\n[3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom6 () {
-    CountRoom (1);
+void BackRoom6 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|*|__|");
     Console.WriteLine($"<_______>");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[2/3/EXIT]");
     while(true){
@@ -214,20 +222,20 @@ void BackRoom6 () {
             Console.Write($"Там стена.\nВведите '2', '3' или 'EXIT'.\n[2/3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom7 () {
-    CountRoom (1);
+void BackRoom7 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |*|  |");
     Console.WriteLine($"|  | |  |");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[4/EXIT]");
     while(true){
@@ -240,47 +248,47 @@ void BackRoom7 () {
             Console.Write($"Там стена.\nВведите '4' или 'EXIT'.\n[4/2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void BackRoom () {
+void BackRoom (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     int random = new Random().Next(1, 8);
     switch(random){
     case 1: 
-    BackRoom1();
+    BackRoom1(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 2: 
-    BackRoom2();
+    BackRoom2(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 3: 
-    BackRoom3();
+    BackRoom3(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 4: 
-    BackRoom4();
+    BackRoom4(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 5: 
-    BackRoom5();
+    BackRoom5(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 6: 
-    BackRoom6();
+    BackRoom6(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     default:
-    BackRoom7();
+    BackRoom7(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     } 
 }
 
-void RightRoom1 () {
-    CountRoom (1);
+void RightRoom1 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|____   |");
     Console.WriteLine($"*__  |  |");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[4/EXIT]");
     while(true){
@@ -293,20 +301,20 @@ void RightRoom1 () {
             Console.Write($"Там стена.\nВведите '4' или 'EXIT'.\n[4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom2 () {
-    CountRoom (1);
+void RightRoom2 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|_______|");
     Console.WriteLine($"*__   __>");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[3/4/EXIT]");
     while(true){
@@ -319,20 +327,20 @@ void RightRoom2 () {
             Console.Write($"Там стена.\nВведите '3', '4' или 'EXIT'.\n[3/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom3 () {
-    CountRoom (1);
+void RightRoom3 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|__|");
     Console.WriteLine($"*__   __>");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[1/3/4/EXIT]");
     while(true){
@@ -343,20 +351,20 @@ void RightRoom3 () {
             Console.Write($"Назад идти нельзя.\nВведите '1', '3', '4' или 'EXIT'.\n[1/3/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom4 () {
-    CountRoom (1);
+void RightRoom4 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|__|");
     Console.WriteLine($"*_______>");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/3/EXIT]");
     while(true){
@@ -369,20 +377,20 @@ void RightRoom4 () {
             Console.Write($"Там стена.\nВведите '1', '3' или 'EXIT'.\n[1/3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom5 () {
-    CountRoom (1);
+void RightRoom5 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|  |");
     Console.WriteLine($"*____|  |");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/EXIT]");
     while(true){
@@ -395,20 +403,20 @@ void RightRoom5 () {
             Console.Write($"Там стена.\nВведите '1' или 'EXIT'.\n[1/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom6 () {
-    CountRoom (1);
+void RightRoom6 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|  |");
     Console.WriteLine($"*__  |  |");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[1/4/EXIT]");
     while(true){
@@ -421,20 +429,20 @@ void RightRoom6 () {
             Console.Write($"Там стена.\nВведите '1', '4' или 'EXIT'.\n[1/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom7 () {
-    CountRoom (1);
+void RightRoom7 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|_______|");
     Console.WriteLine($"*_______>");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[3/EXIT]");
     while(true){
@@ -447,47 +455,47 @@ void RightRoom7 () {
             Console.Write($"Там стена.\nВведите '3' или 'EXIT'.\n[3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void RightRoom () {
+void RightRoom (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     int random = new Random().Next(1, 8);
     switch(random){
     case 1: 
-    RightRoom1();
+    RightRoom1(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 2: 
-    RightRoom2();
+    RightRoom2(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 3: 
-    RightRoom3();
+    RightRoom3(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 4: 
-    RightRoom4();
+    RightRoom4(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 5: 
-    RightRoom5();
+    RightRoom5(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 6: 
-    RightRoom6();
+    RightRoom6(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     default:
-    RightRoom7();
+    RightRoom7(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     } 
 }
 
-void LeftRoom1 () {
-    CountRoom (1);
+void LeftRoom1 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|   ____|");
     Console.WriteLine($"|  |  __*");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[4/EXIT]");
     while(true){
@@ -500,20 +508,20 @@ void LeftRoom1 () {
             Console.Write($"Там стена.\nВведите '4' или 'EXIT'.\n[4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom2 () {
-    CountRoom (1);
+void LeftRoom2 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|_______|");
     Console.WriteLine($"<__   __*");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[2/4/EXIT]");
     while(true){
@@ -526,20 +534,20 @@ void LeftRoom2 () {
             Console.Write($"Там стена.\nВведите '2', '4' или 'EXIT'.\n[2/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom3 () {
-    CountRoom (1);
+void LeftRoom3 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|__|");
     Console.WriteLine($"<__   __*");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[1/2/4/EXIT]");
     while(true){
@@ -550,20 +558,20 @@ void LeftRoom3 () {
             Console.Write($"Назад идти нельзя.\nВведите '1', '2', '4' или 'EXIT'.\n[1/2/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom4 () {
-    CountRoom (1);
+void LeftRoom4 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|__|");
     Console.WriteLine($"<_______*");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/2/EXIT]");
     while(true){
@@ -576,20 +584,20 @@ void LeftRoom4 () {
             Console.Write($"Там стена.\nВведите '1', '2' или 'EXIT'.\n[1/2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom5 () {
-    CountRoom (1);
+void LeftRoom5 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |^|__|");
     Console.WriteLine($"|  |____*");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/EXIT]");
     while(true){
@@ -602,20 +610,20 @@ void LeftRoom5 () {
             Console.Write($"Там стена.\nВведите '1' или 'EXIT'.\n[1/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom6 () {
-    CountRoom (1);
+void LeftRoom6 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |^|__|");
     Console.WriteLine($"|  |  __*");
     Console.WriteLine($"|__|v|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)v");
     Console.WriteLine($"\n[1/4/EXIT]");
     while(true){
@@ -628,20 +636,20 @@ void LeftRoom6 () {
             Console.Write($"Там стена.\nВведите '1', '4' или 'EXIT'.\n[1/4/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom7 () {
-    CountRoom (1);
+void LeftRoom7 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|_______|");
     Console.WriteLine($"<_______*");
     Console.WriteLine($"|_______|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[2/EXIT]");
     while(true){
@@ -654,47 +662,47 @@ void LeftRoom7 () {
             Console.Write($"Там стена.\nВведите '2' или 'EXIT'.\n[2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void LeftRoom () {
+void LeftRoom (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     int random = new Random().Next(1, 8);
     switch(random){
     case 1: 
-    LeftRoom1();
+    LeftRoom1(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 2: 
-    LeftRoom2();
+    LeftRoom2(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 3: 
-    LeftRoom3();
+    LeftRoom3(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 4: 
-    LeftRoom4();
+    LeftRoom4(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 5: 
-    LeftRoom5();
+    LeftRoom5(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 6: 
-    LeftRoom6();
+    LeftRoom6(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     default:
-    LeftRoom7();
+    LeftRoom7(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     } 
 }
 
-void FrontRoom1 () {
-    CountRoom (1);
+void FrontRoom1 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|____   |");
     Console.WriteLine($"<__  |  |");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[2/EXIT]");
     while(true){
@@ -707,20 +715,20 @@ void FrontRoom1 () {
             Console.Write($"Там стена.\nВведите '2' или 'EXIT'.\n[2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom2 () {
-    CountRoom (1);
+void FrontRoom2 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|  |");
     Console.WriteLine($"<__  |  |");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/2/EXIT]");
     while(true){
@@ -733,20 +741,20 @@ void FrontRoom2 () {
             Console.Write($"Там стена.\nВведите '1', '2' или 'EXIT'.\n[1/2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom3 () {
-    CountRoom (1);
+void FrontRoom3 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|__|^|__|");
     Console.WriteLine($"<__   __>");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/2/3/EXIT]");
     while(true){
@@ -757,20 +765,20 @@ void FrontRoom3 () {
             Console.Write($"Назад идти нельзя.\nВведите '1', '2', '3' или 'EXIT'.\n[1/2/3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom4 () {
-    CountRoom (1);
+void FrontRoom4 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |^|__|");
     Console.WriteLine($"|  |  __>");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/3/EXIT]");
     while(true){
@@ -783,20 +791,20 @@ void FrontRoom4 () {
             Console.Write($"Там стена.\nВведите '1', '3' или 'EXIT'.\n[1/3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom5 () {
-    CountRoom (1);
+void FrontRoom5 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|   ____|");
     Console.WriteLine($"|  |  __>");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[3/EXIT]");
     while(true){
@@ -809,20 +817,20 @@ void FrontRoom5 () {
             Console.Write($"Там стена.\nВведите '3' или 'EXIT'.\n[3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom6 () {
-    CountRoom (1);
+void FrontRoom6 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" _______");
     Console.WriteLine($"|_______|");
     Console.WriteLine($"<__   __>");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)-\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[2/3/EXIT]");
     while(true){
@@ -835,20 +843,20 @@ void FrontRoom6 () {
             Console.Write($"Там стена.\nВведите '2', '3' или 'EXIT'.\n[2/3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom7 () {
-    CountRoom (1);
+void FrontRoom7 (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
+    Console.WriteLine($"Ход: {CountRoom(ref count)}");
     Console.WriteLine($" __   __");
     Console.WriteLine($"|  |^|  |");
     Console.WriteLine($"|  | |  |");
     Console.WriteLine($"|__|*|__|");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HP")}");
-    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status("DEF")}");
-    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status("ATK")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HP")}");
+    Console.WriteLine($"2)-\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEF")}");
+    Console.WriteLine($"3)-\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATK")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/EXIT]");
     while(true){
@@ -861,37 +869,37 @@ void FrontRoom7 () {
             Console.Write($"Там стена.\nВведите '1' или 'EXIT'.\n[1/2/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void FrontRoom () {
+void FrontRoom (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     int random = new Random().Next(1, 8);
     switch(random){
     case 1: 
-    FrontRoom1();
+    FrontRoom1(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 2: 
-    FrontRoom2();
+    FrontRoom2(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 3: 
-    FrontRoom3();
+    FrontRoom3(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 4: 
-    FrontRoom4();
+    FrontRoom4(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 5: 
-    FrontRoom5();
+    FrontRoom5(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     case 6: 
-    FrontRoom6();
+    FrontRoom6(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     default:
-    FrontRoom7();
+    FrontRoom7(ref count, ref changeHP, ref changeDEF, ref changeATK);
     break;
     } 
 }
 
-void FirstRoom () {
+void FirstRoom (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Clear();
     Console.WriteLine($"Мы начинаем!");
@@ -900,9 +908,9 @@ void FirstRoom () {
     Console.WriteLine($"<__   __>");
     Console.WriteLine($"|__|*|__|");
     Console.WriteLine($"\nЭто первая комната.\nСтрелками обозначены пути, куда ты можешь пойти.\nЗвёздочка же указывает на твоё место положение.\nДля выбора направления введи число, соответствующее нужной стрелке в списке внизу.\nТакже, левее списка выбора можно увидеть свои характеристики.\nЕсли желаете выйти, введите 'EXIT'.\n");
-    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status("HPFR")}");
-    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status("DEFFR")}");
-    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status("ATKFR")}");
+    Console.WriteLine($"1)^\t\t\t\t\t\tHP:{Status(ref changeHP, ref changeDEF, ref changeATK, "HPFR")}");
+    Console.WriteLine($"2)<\t\t\t\t\t\tDEF:{Status(ref changeHP, ref changeDEF, ref changeATK, "DEFFR")}");
+    Console.WriteLine($"3)>\t\t\t\t\t\tATK:{Status(ref changeHP, ref changeDEF, ref changeATK, "ATKFR")}");
     Console.WriteLine($"4)-");
     Console.WriteLine($"\n[1/2/3/EXIT]");
     while(true){
@@ -913,10 +921,10 @@ void FirstRoom () {
             Console.Write($"Назад идти нельзя.\nВведите '1', '2', '3' или 'EXIT'.\n[1/2/3/EXIT]\n");
         } else break;
     }
-    Switcher(answer);
+    Switcher(answer, ref count, ref changeHP, ref changeDEF, ref changeATK);
 }
 
-void Start () {
+void Start (ref int count, ref int changeHP, ref int changeDEF, ref int changeATK) {
     string answer;
     Console.Write($"Добро пожаловать!\nЕсли готовы начать, введите 'Y'.\nЕсли желаете выйти, нажмите 'N'.\n[Y/N]\n");
     while(true){
@@ -926,10 +934,14 @@ void Start () {
         } else break;
     }
     if (answer.ToLower() == "y"){
-        FirstRoom();
+        FirstRoom(ref count, ref changeHP, ref changeDEF, ref changeATK);
     } else {
         Console.WriteLine($"До свидания!");
     }
 }
 
-Start();
+int count = 0;
+int changeHP = 0;
+int changeDEF = 0;
+int changeATK = 0;
+Start(ref count, ref changeHP, ref changeDEF, ref changeATK);
