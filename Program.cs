@@ -55,7 +55,7 @@ void Battle (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP
         if (myHP<=0){
             GameOver(ref count, ref changeHP, ref changeATK);
             break;
-        } else if (enemyHPHP <= 0) {
+        } else if (enemyHP <= 0) {
             Victory();
             break;
         }
