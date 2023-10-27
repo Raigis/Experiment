@@ -1,4 +1,5 @@
-﻿using System.Collections;
+//Это простенький консольный рогалик. Введи dotnet run и играй.
+using System.Collections;
 int CountRoom (ref int count) {
     count++;
     return count;
