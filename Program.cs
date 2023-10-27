@@ -52,11 +52,11 @@ void Battle (ref int count, ref int changeHP, ref int changeATK, ref int enemyHP
         enemyHP -= myATK;
         myHP -= enemyATK;
         Changer(ref changeHP, ref changeATK, chHP: -enemyATK);
-        if (enemyHP<=0){
-            Victory();
-            break;
-        } else if (myHP <= 0) {
+        if (myHP<=0){
             GameOver(ref count, ref changeHP, ref changeATK);
+            break;
+        } else if (enemyHPHP <= 0) {
+            Victory();
             break;
         }
     }
