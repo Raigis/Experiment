@@ -43,11 +43,29 @@ int EnemyStatus (ref int count, string parametr) {
 }
 
 void GameOver(ref int count, ref int changeHP, ref int changeATK, ref int changePoison) {
+    string answer;
     Console.Clear();
-    Console.WriteLine($"Вы проиграли.\nНажмите любую клавишу, чтобы выйти");
-    Console.ReadKey();
-    Console.WriteLine($"До свидания!");
-    Environment.Exit(0);
+    Console.WriteLine($"Вы проиграли.\nПопробовать снова?");
+    Console.WriteLine($"1) Да");
+    Console.WriteLine($"2) Нет");
+    Console.WriteLine($"\n[1/2]");
+    while(true){
+        answer = Console.ReadLine();
+        if(answer != "1" && answer != "2") {
+            Console.Write($"Неизвестный ввод.\nВведите '1' или '2'.\n[1/2]\n");
+        } else if (answer == "1") {
+            count = 0;
+            changeHP = 0;
+            changeATK = 0;
+            changePoison = 0;
+            FirstRoom(ref count, ref changeHP, ref changeATK, ref changePoison);
+            break;
+        } else if (answer == "2"){
+            Console.WriteLine($"До свидания!");
+            Environment.Exit(0);
+            break;
+        }
+    }
 }
 
 void Victory() {
@@ -90,7 +108,7 @@ void Evade (ref int count, ref int changeHP, ref int changeATK, ref int changePo
             while(true){
                 answer = Console.ReadLine();
                 if(answer != "1" && answer != "2" && answer.ToLower() != "exit") {
-                    Console.Write($"Неизвестный ввод.\nВведите '1' или '2'.\n[1/2/EXIT]\n");
+                    Console.Write($"Неизвестный ввод.\nВведите '1', '2' или 'EXIT'.\n[1/2/EXIT]\n");
                 } else if (answer == "1") {
                     Battle(ref count, ref changeHP, ref changeATK, ref changePoison, ref enemyHP, ref enemyATK);
                     break;
