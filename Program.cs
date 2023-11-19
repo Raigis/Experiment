@@ -1084,4 +1084,11 @@ int count = 0;
 int changeHP = 0;
 int changeATK = 0;
 int changePoison = 0;
-Start(ref count, ref changeHP, ref changeATK, ref changePoison);
+//Start(ref count, ref changeHP, ref changeATK, ref changePoison);
+int[,] map = Generator.MapGenerating();
+for (int i = 0; i<map.GetLength(0); i++){
+    for(int j = 0; j<map.GetLength(1)-1; j++){
+        Console.Write($"{map[i,j]}\t");
+    }
+    Console.WriteLine($"{map[i,map.GetLength(1)-1]}");
+}
